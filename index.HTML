@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>又松大学 Woosong University - 培养全球化领袖</title>
+    
+    <!-- 引入 Tailwind CSS (用于快速布局与现代化设计) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Google Fonts (Noto Sans SC 提供专业、大气的简体中文字体) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 引入 Font Awesome (用于图标) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 自定义配置与动画 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                    },
+                    colors: {
+                        wsu: {
+                            blue: '#003366', // 又松大学主色调 (沉稳权威)
+                            red: '#C8102E',  // 点缀色/强调色 (热情活力)
+                            light: '#F3F4F6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 平滑滚动与基础设定 */
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Noto Sans SC', sans-serif; overflow-x: hidden; }
+        
+        /* 首图渐层叠加，确保文字清晰 */
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(0, 51, 102, 0.85) 0%, rgba(0, 51, 102, 0.4) 100%);
+        }
+        
+        /* 导航栏滚动变色过渡效果 */
+        #navbar {
+            transition: all 0.3s ease-in-out;
+        }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .nav-scrolled .nav-link { color: #003366; }
+        .nav-scrolled .logo-text { color: #003366; }
+        .nav-transparent .nav-link { color: white; }
+        .nav-transparent .logo-text { color: white; }
+
+        /* --- 多级下拉菜单样式 (3-Level Dropdown) --- */
+        .dropdown { position: relative; }
+        
+        /* 二级菜单容器 */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            z-index: 50;
+            border-top: 3px solid #C8102E; /* 红色顶边增强视觉联系 */
+            animation: fadeIn 0.2s ease-out;
+        }
+        .dropdown:hover > .dropdown-menu { display: block; }
+        
+        /* 二级菜单项目 */
+        .dropdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #374151; /* text-gray-700 */
+            transition: background-color 0.2s, color 0.2s;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        .dropdown-item:hover {
+            background-color: #f9fafb; /* bg-gray-50 */
+            color: #C8102E; /* text-wsu-red */
+        }
+        
+        /* 三级菜单容器 */
+        .sub-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: -3px; /* 对齐带 border-top 的父级 */
+            left: 100%; /* 出现在右侧 */
+            background-color: white;
+            min-width: 240px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-left: 2px;
+            border-left: 3px solid #003366; /* 蓝色左边区分层级 */
+            animation: fadeIn 0.2s ease-out;
+        }
+        .dropdown-item.has-sub:hover > .sub-dropdown-menu { display: block; }
+
+        /* 三级菜单项目 */
+        .sub-dropdown-item {
+            display: block;
+            padding: 0.6rem 1.5rem;
+            color: #4b5563;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .sub-dropdown-item:hover {
+            background-color: #f3f4f6;
+            color: #003366;
+            padding-left: 1.75rem; /* 悬浮时的小位移动画 */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* --- 结束菜单样式 --- */
+
+        /* 卡片悬浮动画 (提升高级感) */
+        .hover-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* 浮动咨询按钮动画 */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(200, 16, 46, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(200, 16, 46, 0); }
+        }
+        .floating-cta-pulse {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- 导航栏 (Navbar) -->
+    <nav id="navbar" class="fixed w-full z-50 top-0 nav-transparent py-4">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <!-- Logo 区块 -->
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-graduation-cap text-3xl logo-text text-wsu-red"></i>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold tracking-wider logo-text">又松大学</span>
+                    <span class="text-xs tracking-widest uppercase logo-text opacity-80">Woosong University</span>
+                </div>
+            </div>
+
+            <!-- 电脑版三级菜单 -->
+            <div class="hidden md:flex items-center space-x-6">
+                
+                <!-- 菜单项 1: 走进又松 -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link font-medium hover:text-wsu-red transition flex items-center gap-1.5 py-2">
+                        走进又松 <i class="fa-solid fa-angle-down text-sm"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            学校概况 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">校长致辞</a>
+                                <a href="#" class="sub-dropdown-item">建校理念与愿景</a>
+                                <a href="#" class="sub-dropdown-item">又松学园 (财团)</a>
+                                <a href="#" class="sub-dropdown-item">校园地图</a>
+                                <a href="#" class="sub-dropdown-item">联系我们</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            机构设置 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">行政部门</a>
+                                <a href="#" class="sub-dropdown-item">附属机构</a>
+                                <a href="#" class="sub-dropdown-item">产学研合作团</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 菜单项 2: 院系设置 -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link font-medium hover:text-wsu-red transition flex items-center gap-1.5 py-2">
+                        院系设置 <i class="fa-solid fa-angle-down text-sm"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            本科生院 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">SolBridge 国际商学院</a>
+                                <a href="#" class="sub-dropdown-item">Endicott 国际学院</a>
+                                <a href="#" class="sub-dropdown-item">铁道物流学院</a>
+                                <a href="#" class="sub-dropdown-item">软件融合学院 (IT)</a>
+                                <a href="#" class="sub-dropdown-item">酒店餐饮烹饪学院</a>
+                                <a href="#" class="sub-dropdown-item">保健福利学院</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            研究生院 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">一般研究生院 (硕/博)</a>
+                                <a href="#" class="sub-dropdown-item">SolBridge 国际商管研究所</a>
+                                <a href="#" class="sub-dropdown-item">特殊经营研究生院</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 菜单项 3: 招生与就业 -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link font-medium hover:text-wsu-red transition flex items-center gap-1.5 py-2">
+                        招生与就业 <i class="fa-solid fa-angle-down text-sm"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            留学生招生 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">本科生招生简章</a>
+                                <a href="#" class="sub-dropdown-item">研究生招生简章</a>
+                                <a href="#" class="sub-dropdown-item">韩国语学堂 (语学院)</a>
+                                <a href="#" class="sub-dropdown-item">奖学金制度</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            就业支援 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">就业支援中心介绍</a>
+                                <a href="#" class="sub-dropdown-item">全球名企实习项目</a>
+                                <a href="#" class="sub-dropdown-item">中国留学生专属指导</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 菜单项 4: 校园生活 -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link font-medium hover:text-wsu-red transition flex items-center gap-1.5 py-2">
+                        校园生活 <i class="fa-solid fa-angle-down text-sm"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            学生服务 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">留学生支援中心 (SIS)</a>
+                                <a href="#" class="sub-dropdown-item">国际学生宿舍 (Sol-Geo)</a>
+                                <a href="#" class="sub-dropdown-item">签证与滞留指南</a>
+                                <a href="#" class="sub-dropdown-item">医疗与保险</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item has-sub cursor-pointer">
+                            校园动态 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
+                            <div class="sub-dropdown-menu">
+                                <a href="#" class="sub-dropdown-item">又松新闻</a>
+                                <a href="#" class="sub-dropdown-item">校园活动与社团</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 强转化按钮：在线申请 -->
+                <a href="#apply" class="ml-4 bg-wsu-red text-white px-6 py-2.5 rounded-full font-bold hover:bg-red-700 transition shadow-lg transform hover:scale-105">
+                    在线申请
+                </a>
+                
+                <!-- 语言切换 (模拟) -->
+                <div class="flex items-center gap-2 nav-link text-sm cursor-pointer border-l border-gray-400 pl-4">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>简体中文</span>
+                </div>
+            </div>
+
+            <!-- 手机版菜单按钮 -->
+            <button class="md:hidden nav-link text-2xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 首屏视觉区 (Hero Section) - 传递大气、国际化的第一印象 -->
+    <header class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- 背景图 (替换为高画质校园或国际学生照片) -->
+        <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat" 
+             style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        </div>
+        <!-- 渐层遮罩，确保文字在任何图片上都清晰 -->
+        <div class="absolute inset-0 hero-overlay"></div>
+
+        <!-- 内容区 -->
+        <div class="relative z-10 container mx-auto px-6 lg:px-12 text-white mt-16">
+            <div class="max-w-3xl">
+                <div class="inline-block bg-wsu-red text-white px-4 py-1 rounded-full text-sm font-bold tracking-wider mb-6 animate-fade-in-up">
+                    Fall 2026 Admissions Open
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 tracking-tight">
+                    培养引领未来的<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">全球化领袖</span>
+                </h1>
+                <p class="text-lg md:text-xl font-light mb-10 leading-relaxed opacity-90 max-w-2xl">
+                    又松大学，与世界顶尖学府并肩。我们为国际留学生提供全英语/双语授课环境、AACSB认证的卓越商学教育，以及专属的职涯发展支持。
+                </p>
+                
+                <!-- 行动呼吁 (CTA) 双按钮设计 -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#apply" class="bg-wsu-red hover:bg-red-700 text-white text-lg font-bold py-4 px-10 rounded-full text-center transition duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(200,16,46,0.4)] transform hover:-translate-y-1">
+                        立即申请入学 <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#brochure" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/50 text-white text-lg font-bold py-4 px-10 rounded-full text-center transition duration-300 flex items-center justify-center gap-2">
+                        下载中文招生简章 <i class="fa-solid fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 学校实力数据化 (By the Numbers) - 建立权威与信任 -->
+    <section class="relative -mt-16 z-20 px-6 lg:px-12">
+        <div class="container mx-auto">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100">
+                <div class="text-center px-4">
+                    <div class="text-wsu-red text-4xl md:text-5xl font-black mb-2">73+</div>
+                    <div class="text-gray-500 font-medium text-sm md:text-base">国际学生来源国</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-wsu-blue text-4xl md:text-5xl font-black mb-2">AACSB</div>
+                    <div class="text-gray-500 font-medium text-sm md:text-base">国际商学院最高认证</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-wsu-red text-4xl md:text-5xl font-black mb-2">80%</div>
+                    <div class="text-gray-500 font-medium text-sm md:text-base">全英文授课学位占比</div>
+                </div>
+                <div class="text-center px-4">
+                    <div class="text-wsu-blue text-4xl md:text-5xl font-black mb-2">Top 10</div>
+                    <div class="text-gray-500 font-medium text-sm md:text-base">韩国青年就业率排名</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 为何选择又松 (价值主张，针对家长与学生的痛点) -->
+    <section class="py-24 bg-wsu-light">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-wsu-blue mb-4">为什么选择又松大学？</h2>
+                <div class="w-24 h-1 bg-wsu-red mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">我们不只提供世界级的学术资源，更为中国留学生的生活适应与未来就业，打造全方位的保障体系。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- 特色卡片 1 -->
+                <div class="bg-white p-10 rounded-2xl shadow-lg hover-card border-b-4 border-wsu-blue">
+                    <div class="w-16 h-16 bg-blue-50 text-wsu-blue rounded-xl flex items-center justify-center text-3xl mb-6">
+                        <i class="fa-solid fa-earth-asia"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">无缝接轨的国际环境</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        提供全英文、中韩双语等多种授课模式。即使韩语零基础，也能透过我们完善的语学院与双语专业，轻松适应留学生活。
+                    </p>
+                </div>
+
+                <!-- 特色卡片 2 -->
+                <div class="bg-white p-10 rounded-2xl shadow-lg hover-card border-b-4 border-wsu-red">
+                    <div class="w-16 h-16 bg-red-50 text-wsu-red rounded-xl flex items-center justify-center text-3xl mb-6">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">1对1 就业辅导机制</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        特设“中国留学生就业支援中心”，与中韩两地数百家跨国企业建立实习合作，毕业即具备强大的国际职场竞争力。
+                    </p>
+                </div>
+
+                <!-- 特色卡片 3 -->
+                <div class="bg-white p-10 rounded-2xl shadow-lg hover-card border-b-4 border-wsu-blue">
+                    <div class="w-16 h-16 bg-blue-50 text-wsu-blue rounded-xl flex items-center justify-center text-3xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">安全便利的校园生活</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        位于韩国科技之都大田市，生活成本合理、治安优良。学校提供现代化的留学生专属宿舍与中式餐饮，让家长绝对放心。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 顶尖学术单位 (重点推广学院) -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-wsu-blue mb-4">王牌学院与特色专业</h2>
+                    <div class="w-24 h-1 bg-wsu-red rounded-full"></div>
+                </div>
+                <a href="#" class="hidden md:flex items-center gap-2 text-wsu-blue font-bold hover:text-wsu-red transition">
+                    探索所有学院 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 学院 1: SolBridge -->
+                <div class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SolBridge" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <div class="inline-block bg-white text-wsu-blue px-3 py-1 rounded text-xs font-bold mb-3">AACSB 认证</div>
+                        <h3 class="text-3xl font-bold text-white mb-2">SolBridge 国际商学院</h3>
+                        <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition duration-300 transform translate-y-4 group-hover:translate-y-0">
+                            100% 全英文授课，哈佛式案例教学，培养具备亚洲视角的全球商业领袖。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 学院 2: Endicott -->
+                <div class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Endicott" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <div class="inline-block bg-wsu-red text-white px-3 py-1 rounded text-xs font-bold mb-3">未来科技与创新</div>
+                        <h3 class="text-3xl font-bold text-white mb-2">Endicott 国际学院</h3>
+                        <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition duration-300 transform translate-y-4 group-hover:translate-y-0">
+                            聚焦 AI 人工智能、大数据、国际学领域，打造跨学科的复合型尖端人才。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部行动呼吁 (Bottom CTA) - 再次推动转化 -->
+    <section class="py-20 bg-wsu-blue text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full border-4 border-white/10 opacity-50"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full border-4 border-wsu-red/20 opacity-50"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-black mb-6">开启您的国际化未来</h2>
+            <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">加入又松大学的全球校友网络。我们的中文招生顾问已准备好为您解答所有疑问，协助您顺利完成申请。</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button class="bg-wsu-red hover:bg-red-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition transform hover:scale-105">
+                    线上填写咨询表单
+                </button>
+                <button class="bg-transparent border-2 border-white hover:bg-white hover:text-wsu-blue text-white font-bold py-4 px-12 rounded-full transition">
+                    联络中国事务处
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 (Footer) -->
+    <footer class="bg-gray-900 text-gray-400 py-12 text-sm border-t border-gray-800">
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-graduation-cap text-2xl text-wsu-red"></i>
+                    <span class="text-xl font-bold text-white">又松大学</span>
+                </div>
+                <p>联系电话: 0082-42-629-6538,6533</p>
+		<p>微信咨询号:又松小助手 (WoosongGlobalCenter)</p>
+		<p>邮箱:wsgcc@wsu.ac.kr</p>
+     		
+		</p>
+		<p class="mb-4">韩国大田广域市东区东大田路171</p> 
+                <p>邮编:34606</p>
+              
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">招生与入学</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-wsu-red transition">本科生申请</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">研究生申请</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">奖学金制度</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">常见问题 FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">校园资源</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-wsu-red transition">校园地图与交通</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">留学生宿舍</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">图书馆</a></li>
+                    <li><a href="#" class="hover:text-wsu-red transition">学术日历</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">关注我们</h4>
+                <div class="flex gap-4 mb-4 text-2xl">
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-weixin"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-weibo"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <p class="text-xs">扫描 QR Code 关注官方微信公众号，获取最新留学资讯。</p>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-12 pt-8 border-t border-gray-800 text-center text-xs">
+            <p>&copy; 2026 Woosong University. All rights reserved. | 隐私权政策 | 网站使用条款</p>
+        </div>
+    </footer>
+
+    <!-- 右下角强转化浮动按钮 (针对中国市场的客服习惯) -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <div class="absolute inset-0 rounded-full floating-cta-pulse"></div>
+        <button class="relative bg-wsu-red text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-[0_10px_25px_rgba(200,16,46,0.6)] hover:bg-red-700 transition transform hover:-translate-y-1">
+            <i class="fa-brands fa-weixin"></i>
+        </button>
+        <!-- 提示小气泡 -->
+        <div class="absolute bottom-20 right-0 bg-white text-gray-800 text-sm font-bold px-4 py-2 rounded-lg shadow-xl whitespace-nowrap opacity-0 transition-opacity duration-300" id="chat-tooltip">
+            招生老师线上咨询
+            <div class="absolute -bottom-2 right-6 w-4 h-4 bg-white transform rotate-45"></div>
+        </div>
+    </div>
+
+    <!-- 交互脚本 -->
+    <script>
+        // 1. 导航栏滚动效果：滑动页面时，导航栏从透明变为白色实体，提升质感
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('nav-transparent', 'py-4');
+                navbar.classList.add('nav-scrolled', 'py-2');
+            } else {
+                navbar.classList.add('nav-transparent', 'py-4');
+                navbar.classList.remove('nav-scrolled', 'py-2');
+            }
+        });
+
+        // 2. 浮动按钮提示气泡显示逻辑
+        const chatBtn = document.querySelector('.fixed.bottom-8.right-8 button');
+        const tooltip = document.getElementById('chat-tooltip');
+        
+        // 页面载入 3 秒后自动显示一次气泡吸引注意
+        setTimeout(() => {
+            tooltip.style.opacity = '1';
+            setTimeout(() => { tooltip.style.opacity = '0'; }, 4000);
+        }, 3000);
+
+        // 鼠标悬停时显示
+        chatBtn.addEventListener('mouseenter', () => tooltip.style.opacity = '1');
+        chatBtn.addEventListener('mouseleave', () => tooltip.style.opacity = '0');
+    </script>
+</body>
+</html>
