@@ -175,9 +175,9 @@
                         <div class="dropdown-item has-sub cursor-pointer">
                             学校概况 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
                             <div class="sub-dropdown-menu">
-                                <a href="#" class="sub-dropdown-item">校长致辞</a>
+                                <a href="#" class="sub-dropdown-item">又松学园</a>
                                 <a href="#" class="sub-dropdown-item">建校理念与愿景</a>
-                                <a href="#" class="sub-dropdown-item">又松学园 (财团)</a>
+                                <a href="#" class="sub-dropdown-item">又松大学</a>
                                 <a href="#" class="sub-dropdown-item">校园地图</a>
                                 <a href="#" class="sub-dropdown-item">联系我们</a>
                             </div>
@@ -204,9 +204,10 @@
                             <div class="sub-dropdown-menu">
                                 <a href="#" class="sub-dropdown-item">SolBridge 国际商学院</a>
                                 <a href="#" class="sub-dropdown-item">Endicott 国际学院</a>
-                                <a href="#" class="sub-dropdown-item">铁道物流学院</a>
-                                <a href="#" class="sub-dropdown-item">软件融合学院 (IT)</a>
-                                <a href="#" class="sub-dropdown-item">酒店餐饮烹饪学院</a>
+								 <a href="#" class="sub-dropdown-item">铁道学院</a>
+								<a href="#" class="sub-dropdown-item">JCFS 未來学院</a>
+								 <a href="#" class="sub-dropdown-item">软件融合学院 (SW)</a>
+								<a href="#" class="sub-dropdown-item">餐饮烹饪学院</a>
                                 <a href="#" class="sub-dropdown-item">保健福利学院</a>
                             </div>
                         </div>
@@ -214,8 +215,7 @@
                             研究生院 <i class="fa-solid fa-angle-right text-sm text-gray-400"></i>
                             <div class="sub-dropdown-menu">
                                 <a href="#" class="sub-dropdown-item">一般研究生院 (硕/博)</a>
-                                <a href="#" class="sub-dropdown-item">SolBridge 国际商管研究所</a>
-                                <a href="#" class="sub-dropdown-item">特殊经营研究生院</a>
+                                <a href="#" class="sub-dropdown-item">SolBridge 国际商学院</a>
                             </div>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                                 <a href="#" class="sub-dropdown-item">留学生支援中心 (SIS)</a>
                                 <a href="#" class="sub-dropdown-item">国际学生宿舍 (Sol-Geo)</a>
                                 <a href="#" class="sub-dropdown-item">签证与滞留指南</a>
-                                <a href="#" class="sub-dropdown-item">医疗与保险</a>
+                                <a href="#" class="sub-dropdown-item">校历日程</a>
                             </div>
                         </div>
                         <div class="dropdown-item has-sub cursor-pointer">
@@ -280,7 +280,9 @@
                 <!-- 语言切换 (模拟) -->
                 <div class="flex items-center gap-2 nav-link text-sm cursor-pointer border-l border-gray-400 pl-4">
                     <i class="fa-solid fa-globe"></i>
-                    <span>简体中文</span>
+                    <span>🇨🇳简体中文</span>
+					<span>🇺🇸English</span>
+					<span>🇰🇷한국어</span>
                 </div>
             </div>
 
@@ -543,7 +545,7 @@
         const chatBtn = document.querySelector('.fixed.bottom-8.right-8 button');
         const tooltip = document.getElementById('chat-tooltip');
         
-        // 页面载入 3 秒后自动显示一次气泡吸引注意
+        // 页面载入 5 秒后自动显示一次气泡吸引注意
         setTimeout(() => {
             tooltip.style.opacity = '1';
             setTimeout(() => { tooltip.style.opacity = '0'; }, 4000);
